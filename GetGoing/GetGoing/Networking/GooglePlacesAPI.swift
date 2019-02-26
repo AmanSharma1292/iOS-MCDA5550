@@ -11,7 +11,7 @@ import CoreLocation
 
 class GooglePlacesAPI {
     
-    class func requestPlaces(_ query: String, completion: @escaping(_ status: Int, _ json: [String: Any]?) -> Void) {
+    class func requestPlaces(radius: Int, opennow: Bool,_ query: String, completion: @escaping(_ status: Int, _ json: [String: Any]?) -> Void) {
         
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.scheme
@@ -21,6 +21,8 @@ class GooglePlacesAPI {
         urlComponents.queryItems =
             [
                 URLQueryItem(name: "query", value: query),
+                URLQueryItem(name: "radius", value: "\(radius)"),
+                URLQueryItem(name: "opennow", value: "\(opennow)"),
                 URLQueryItem(name: "key", value: Constants.apikey)
         ]
         if let url = urlComponents.url {
@@ -38,7 +40,7 @@ class GooglePlacesAPI {
         }
     }
     
-    class func requestPlacesNearby(for coordinate: CLLocationCoordinate2D, radius: Double, _ query: String?, completion: @escaping(_ status: Int, _ json: [String: Any]?) -> Void) {
+    class func requestPlacesNearby(for coordinate: CLLocationCoordinate2D, radius: Int, rankby: String, opennow: Bool, _ query: String?, completion: @escaping(_ status: Int, _ json: [String: Any]?) -> Void) {
         
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.scheme
@@ -48,7 +50,10 @@ class GooglePlacesAPI {
         urlComponents.queryItems =
             [
                 URLQueryItem(name: "location", value: "\(coordinate.latitude),\(coordinate.longitude)"),
-                URLQueryItem(name: "radius", value: "\(Int(radius))"),
+//                URLQueryItem(name: "location", value: "\(-33.8670522),\(151.1957362)"),
+                URLQueryItem(name: "radius", value: "\(radius)"),
+                URLQueryItem(name: "opennow", value: "\(opennow)"),
+                URLQueryItem(name: "rankby", value: rankby),
                 URLQueryItem(name: "key", value: Constants.apikey)
 
         ]

@@ -40,6 +40,16 @@ class SearchResultsViewController: UIViewController {
      }
      */
     
+    @IBAction func mapViewAction(_ sender: UIBarButtonItem) {
+        guard let mapPreviewViewController = self.storyboard?.instantiateViewController(withIdentifier: "MapPreviewViewController") as? MapPreviewViewController else { return }
+        mapPreviewViewController.places = places
+        
+//        present(mapPreviewViewController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(mapPreviewViewController, animated: true)
+        }
+    }
+    
     @IBAction func sortResultAction(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             places = places.sorted(by: {$0.name ?? "" < $1.name ?? ""})

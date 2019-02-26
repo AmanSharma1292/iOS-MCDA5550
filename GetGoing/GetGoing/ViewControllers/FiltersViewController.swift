@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 enum RankBy {
     case prominence, distance
@@ -23,11 +24,23 @@ enum RankBy {
 
 class FiltersViewController: UIViewController {
     // Mark: - IBOutlets
+    var radius: Int = 10
+    var rankBy: String = RankBy.prominence.description()
+    var isOpen: Bool = true
+    
+    weak var delegate: FilterServiceDelegate?
+    
     @IBOutlet weak var radiusSlider: UISlider!
     @IBOutlet weak var isOpenNow: UISwitch!
     @IBOutlet weak var rankByLabel: UILabel!
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var rankBySelectedLabel: UILabel!
+    
+    @IBAction func saveAction(_ sender: UIBarButtonItem) {
+        let rankUsing: String = rankBySelectedLabel.text ?? RankBy.distance.description()
+        delegate?.didUpdateFilter(radius: Int(radiusSlider.value), rankBy: rankUsing, isOpen: isOpenNow.isOn)
+        dismiss(animated: true, completion: nil)
+    }
     
     // Mark: - View Controller LifeCycle
     var rankByDictionary: [RankBy] = [.prominence, .distance]
@@ -40,7 +53,6 @@ class FiltersViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(rankByLabelTapped))
         tapGestureRecognizer.numberOfTapsRequired = 1
         rankByLabel.addGestureRecognizer(tapGestureRecognizer)
-        rankBySelectedLabel.text = rankByDictionary.first?.description()
         
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44.0)
         let toolBar = UIToolbar(frame: frame)
@@ -48,9 +60,27 @@ class FiltersViewController: UIViewController {
         toolBar.setItems([doneItem], animated: true)
         pickerView.addSubview(toolBar)
         
+        rankBySelectedLabel.text = rankBy
+        isOpenNow.isOn = isOpen
+        radiusSlider.value = Float(radius)
+        if rankBy == RankBy.prominence.description() {
+            pickerView.selectRow(0, inComponent: 0, animated: true)
+        } else {
+            pickerView.selectRow(1, inComponent: 0, animated: true)
+        }
+        
     }
     
     // Mark: - IBAction
+    
+    @IBAction func resetFilter(_ sender: UIButton) {
+        radiusSlider.value = Float(10)
+        rankBySelectedLabel.text = RankBy.prominence.description()
+        isOpenNow.isOn = true
+
+        // Comment below line If you don't want to save the default filters when you close filter view
+        delegate?.didUpdateFilter(radius: Int(radiusSlider.value), rankBy: rankBySelectedLabel.text!, isOpen: isOpenNow.isOn)
+    }
     
     @objc func rankByLabelTapped() {
         print("Label Was Tapped!")
@@ -69,7 +99,6 @@ class FiltersViewController: UIViewController {
     
     @IBAction func radiusSliderChangedValue(_ sender: UISlider) {
         print("Slider Value Changed to \(sender.value) \(Int(sender.value))")
-        
     }
     @IBAction func switchValueChanged(_ sender: UISwitch) {
         print("Changed: \(sender.isOn)")
@@ -103,5 +132,10 @@ extension FiltersViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         rankBySelectedLabel.text = rankByDictionary[row].description()
     }
+    
+}
+
+protocol FilterServiceDelegate: class {
+    func didUpdateFilter(radius: Int, rankBy: String, isOpen: Bool)
     
 }

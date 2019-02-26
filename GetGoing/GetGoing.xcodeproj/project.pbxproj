@@ -18,6 +18,7 @@
 		77536C8E21F6881E00C57275 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77536C8D21F6881E00C57275 /* Constants.swift */; };
 		77536C9121F6890700C57275 /* NetworkingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77536C9021F6890700C57275 /* NetworkingLayer.swift */; };
 		77536C9321F691F100C57275 /* GooglePlacesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77536C9221F691F100C57275 /* GooglePlacesAPI.swift */; };
+		7757CC502220D94900CE8F86 /* MapPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757CC4F2220D94900CE8F86 /* MapPreviewViewController.swift */; };
 		775898AD220B9BEB002988FD /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 775898AC220B9BEB002988FD /* Camera.storyboard */; };
 		775898B0220B9F90002988FD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775898AF220B9F90002988FD /* CameraViewController.swift */; };
 		7788092221FFBEDF00C6A5A4 /* RatingContro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788092121FFBEDF00C6A5A4 /* RatingContro.swift */; };
@@ -42,6 +43,7 @@
 		77536C8D21F6881E00C57275 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		77536C9021F6890700C57275 /* NetworkingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingLayer.swift; sourceTree = "<group>"; };
 		77536C9221F691F100C57275 /* GooglePlacesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesAPI.swift; sourceTree = "<group>"; };
+		7757CC4F2220D94900CE8F86 /* MapPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPreviewViewController.swift; sourceTree = "<group>"; };
 		775898AC220B9BEB002988FD /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		775898AF220B9F90002988FD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		7788092121FFBEDF00C6A5A4 /* RatingContro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingContro.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				7713E0D021F9354900861933 /* SearchResultsViewController.swift */,
 				770EC54F2208E9F9002AE8DB /* FiltersViewController.swift */,
 				770EC551220907F2002AE8DB /* PlaceDetailViewController.swift */,
+				7757CC4F2220D94900CE8F86 /* MapPreviewViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				7713E0CD21F91C1200861933 /* PlaceDetails.swift in Sources */,
 				77BEED9021EFFE2E009BD2D1 /* SearchViewController.swift in Sources */,
 				778809252202606700C6A5A4 /* LocationService.swift in Sources */,
+				7757CC502220D94900CE8F86 /* MapPreviewViewController.swift in Sources */,
 				77536C9121F6890700C57275 /* NetworkingLayer.swift in Sources */,
 				77BEED7D21EFE1E4009BD2D1 /* AppDelegate.swift in Sources */,
 				77536C8E21F6881E00C57275 /* Constants.swift in Sources */,

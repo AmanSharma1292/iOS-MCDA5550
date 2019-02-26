@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     // MARK: - Outlets
     @IBOutlet weak var searchTextField: UITextField!
@@ -20,6 +21,11 @@ class SearchViewController: UIViewController {
     //TODO: - fix it
     var searchParameter: String?
     var currentLocation: CLLocationCoordinate2D?
+    
+    // default
+    var radius: Int = 10
+    var rankBy: String = RankBy.prominence.description()
+    var isOpen: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +60,16 @@ class SearchViewController: UIViewController {
         
     }
     @IBAction func presentFilter(_ sender: UIButton) {
-        //performSegue(withIdentifier: "FiltersSegue", sender: self)
+//        performSegue(withIdentifier: "FiltersSegue", sender: self)
         
         guard let filtersViewController = UIStoryboard(name: "Filters", bundle: nil).instantiateViewController(withIdentifier: "FiltersViewController") as? FiltersViewController else { return }
+        
+        filtersViewController.delegate = self
+        filtersViewController.rankBy = rankBy
+        filtersViewController.isOpen = isOpen
+        filtersViewController.radius = radius
         present(filtersViewController, animated: true, completion: nil)
+
     }
     
     @IBAction func segmentedObserver(_ sender: UISegmentedControl) {
@@ -73,6 +85,7 @@ class SearchViewController: UIViewController {
     
     
     @IBAction func searchButtonAction(_ sender: UIButton) {
+        // TODO: radius and rankby open-now
         print("Search Button Tapped")
         guard let query = searchTextField.text else {
             print("Query is Nil")
@@ -84,7 +97,7 @@ class SearchViewController: UIViewController {
         
         switch segmentControl.selectedSegmentIndex{
         case 0:
-            GooglePlacesAPI.requestPlaces(query) { (status, json) in
+            GooglePlacesAPI.requestPlaces(radius: radius, opennow: isOpen, query) { (status, json) in
                 print(json ?? "")
                 DispatchQueue.main.async {
                     self.hideActivityIndicator()
@@ -105,7 +118,7 @@ class SearchViewController: UIViewController {
             }
         case 1:
             guard let location = currentLocation else { return }
-            GooglePlacesAPI.requestPlacesNearby(for: location, radius: 10000.0, query) { (status, json) in
+            GooglePlacesAPI.requestPlacesNearby(for: location, radius: radius, rankby: rankBy.lowercased(), opennow: isOpen, query) { (status, json) in
                 print(json ?? "")
                 DispatchQueue.main.async {
                     self.hideActivityIndicator()
@@ -186,6 +199,26 @@ extension SearchViewController: LocationServiceDelegate {
         print("Latitude \(location.coordinate.latitude) longitute \(location.coordinate.longitude)")
         currentLocation = location.coordinate
     }
+    
+    
+}
+
+extension SearchViewController: FilterServiceDelegate {
+    func didUpdateFilter(radius: Int, rankBy: String, isOpen: Bool) {
+        self.radius = radius
+        self.rankBy = rankBy
+        self.isOpen = isOpen
+        if radius == 10 && rankBy == RankBy.prominence.description() && isOpen {
+            filterButton.setImage( UIImage.init(named: "filtersDefault"), for: .normal)
+        } else {
+            filterButton.setImage( UIImage.init(named: "filters"), for: .normal)
+        }
+    }
+    
+//    func didUpdateLocation(location: CLLocation) {
+//        print("Latitude \(location.coordinate.latitude) longitute \(location.coordinate.longitude)")
+//        currentLocation = location.coordinate
+//    }
     
     
 }

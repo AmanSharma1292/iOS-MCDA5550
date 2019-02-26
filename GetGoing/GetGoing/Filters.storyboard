@@ -27,12 +27,16 @@
                                                 <action selector="closeButtonAction:" destination="5cm-8O-tIF" id="nwW-ow-63e"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="bPk-Y5-bf1"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="bPk-Y5-bf1">
+                                            <connections>
+                                                <action selector="saveAction:" destination="5cm-8O-tIF" id="6RL-3y-eu1"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="eFo-mG-48k">
-                                <rect key="frame" x="16" y="80" width="343" height="161"/>
+                                <rect key="frame" x="16" y="80" width="343" height="207"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radius" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rA3-Zf-Glj">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
@@ -40,7 +44,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="100" maxValue="50000" minimumValueImage="radius" maximumValueImage="radiusBorder" translatesAutoresizingMaskIntoConstraints="NO" id="PYV-fb-4UK">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="10" maxValue="50000" minimumValueImage="radius" maximumValueImage="radiusBorder" translatesAutoresizingMaskIntoConstraints="NO" id="PYV-fb-4UK">
                                         <rect key="frame" x="-2" y="36.5" width="347" height="42"/>
                                         <color key="thumbTintColor" red="0.0" green="0.11076081941033866" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
@@ -84,6 +88,13 @@
                                             </switch>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w7z-AV-I11">
+                                        <rect key="frame" x="0.0" y="177" width="343" height="30"/>
+                                        <state key="normal" title="Reset"/>
+                                        <connections>
+                                            <action selector="resetFilter:" destination="5cm-8O-tIF" eventType="touchUpInside" id="tZn-R9-dfm"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="tintColor" red="0.0" green="0.1107608194" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>

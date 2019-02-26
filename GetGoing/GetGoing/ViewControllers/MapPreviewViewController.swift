@@ -1,56 +1,61 @@
 //
-//  PlaceDetailViewController.swift
+//  MapPreviewViewController.swift
 //  GetGoing
 //
-//  Created by MSc CDA on 2019-02-04.
+//  Created by MSc CDA on 2019-02-22.
 //  Copyright © 2019 Aman Sreeraj. All rights reserved.
 //
 
 import UIKit
 import MapKit
 
-class PlaceDetailViewController: UIViewController {
+class MapPreviewViewController: UIViewController {
     
-    @IBOutlet weak var placeName: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var phoneNumberTextView: UITextView!
-    @IBOutlet weak var websiteTextView: UITextView!
     
-    var place: PlaceDetails!
+    var places: [PlaceDetails]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        placeName.text = place.name ?? ""
-        websiteTextView.text = place.website ?? ""
-        phoneNumberTextView.text = place.phone ?? ""
+
         setMapViewCoordinate()
         // Do any additional setup after loading the view.
     }
     
     func setMapViewCoordinate() {
         mapView.delegate = self
-        
-        guard let coordinate = place.coordinate else { return }
-        let annotation = MKPointAnnotation()
-        annotation.title = place.name
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
-        centerMapOnLocation(location: coordinate)
+        for place in places {
+            guard let coordinate = place.coordinate else { return }
+            let annotation = MKPointAnnotation()
+            annotation.title = place.name
+            annotation.coordinate = coordinate
+            mapView.addAnnotation(annotation)
+            centerMapOnLocation(location: coordinate)
+        }
         // Indicates in blue user's current location if available
         mapView.showsUserLocation = true
     }
     
     /*
-     // MARK: - Navigation
+    // MARK: - Navigation
+
      
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        //        let destVC : MapPreviewViewController = segue.destination as! MapPreviewViewController
+//        //        destVC.places = places
+//        if segue.identifier == "FilterSegue" {
+//            if let sourceVC = segue.source as? SearchResultsViewController {
+//                sourceVC.places = places
+//            }
+//        }
+//    }
+
     func centerMapOnLocation(location: CLLocationCoordinate2D) {
         let radius = 5000
         
@@ -59,11 +64,9 @@ class PlaceDetailViewController: UIViewController {
         
         mapView.setRegion(region, animated: true)
     }
-    
-    
 }
 
-extension PlaceDetailViewController: MKMapViewDelegate {
+extension MapPreviewViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -89,13 +92,5 @@ extension PlaceDetailViewController: MKMapViewDelegate {
         if let coordnate = location?.coordinate {
             location?.mapItem(coordinate: coordnate).openInMaps(launchOptions: launchingOptions)
         }
-    }
-}
-
-
-extension MKAnnotation {
-    func mapItem(coordinate: CLLocationCoordinate2D) -> MKMapItem {
-        let placeMark = MKPlacemark(coordinate: coordinate)
-        return MKMapItem(placemark: placeMark)
     }
 }
